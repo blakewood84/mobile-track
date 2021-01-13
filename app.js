@@ -5,13 +5,14 @@ const bodyParser = require("body-parser");
 const { default: axios } = require('axios');
 const app = express();
 const httpServer = http.createServer(app);
+require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const oauthClient = new OAuthClient({
-    clientId: 'ABoL4TMay2k2JbEzkOzeYqMfgf9SiClpY1ab3eGikITalZLIks',
-    clientSecret: 'QnehcARMPZtfCr9KboJrpDaT4BxR1WZ3teZOXSaH',
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
     enviroment: 'sandbox',
     redirectUri: 'http://localhost:3000/callback',
 });

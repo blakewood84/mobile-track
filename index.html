@@ -3,13 +3,17 @@
  <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example-1</title>
+  <title>Quickbooks Invoice Example</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
  </head>
  <body>
-  <button class="auth">CLICK FOR OAUTH</button><br /><br />
-  <button class="test-get">TEST GET</button> <br /> <br />
-  <button class="test-invoice">TEST INVOICE</button>
+  <button class="auth">OAuth2.0 to Quickbooks</button><br /><br />
+  <button class="test-get">Test Get Response</button> <br /> <br />
+  <div class='form'>
+    <div style="margin:10px;"><input type="text" placeholder="Amount ex: 100.0" style="width:300px" id="amount"></div>
+    <button style="margin:10px;" class="test-invoice">Create Test Invoice</button>
+  </div>
+  
   <script>
       let button = document.querySelector('.auth');
       let test_button = document.querySelector('.test-get');
@@ -50,7 +54,7 @@
                 "Line": [
                 {
                   "DetailType": "SalesItemLineDetail", 
-                  "Amount": 999.0, 
+                  "Amount": $('#amount').val(), 
                   "SalesItemLineDetail": {
                     "ItemRef": {
                       "name": "Services", 
@@ -63,8 +67,6 @@
                 "value": "1"
               }  
             }
-
-        
 
             $.post('/test-invoice', obj, function(result) {
               console.log(result);
