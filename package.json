@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-trial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest --coverage --forceExit"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "axios-oauth-client": "^1.4.0",
+    "axios-token-interceptor": "^0.2.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "intuit-oauth": "^3.0.2",
+    "node-quickbooks": "^2.0.37",
+    "nodemon": "^2.0.7",
+    "oauth-v2-client": "0.0.5"
+  }
+}

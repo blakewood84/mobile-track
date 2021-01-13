@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example-1</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+ </head>
+ <body>
+  <button class="auth">CLICK FOR OAUTH</button><br /><br />
+  <button class="test-get">TEST GET</button> <br /> <br />
+  <button class="test-invoice">TEST INVOICE</button>
+  <script>
+      let button = document.querySelector('.auth');
+      let test_button = document.querySelector('.test-get');
+      let test_invoice_button = document.querySelector('.test-invoice');
+
+      const requestOauth = () => {
+        $.get('/verify', function(data) {
+          console.log(data);
+        }).then(function (authUri) {
+                // Launch Popup using the JS window Object
+                var parameters = "location=1,width=800,height=650";
+                parameters += ",left=" + (screen.width - 800) / 2 + ",top=" + (screen.height - 650) / 2;
+                var win = window.open(authUri, 'connectPopup', parameters);
+                var pollOAuth = window.setInterval(function () {
+                    try {
+                        if (win.document.URL.indexOf("code") != -1) {
+                            window.clearInterval(pollOAuth);
+                            win.close();
+                            location.reload();
+                        }
+                    } catch (e) {
+                        //console.log(e)
+                    }
+                }, 100);
+            });
+      };
+
+      const testGet = () => {
+        $.get('/test-get', function(response){
+          console.log(JSON.stringify(response));
+        }).then(res => {
+          console.log(res);
+        });
+      };
+
+      const testInvoice = () => {
+        let obj = {
+              "Line": [
+                {
+                  "DetailType": "SalesItemLineDetail", 
+                  "Amount": 999.0, 
+                  "SalesItemLineDetail": {
+                    "ItemRef": {
+                      "name": "Services", 
+                      "value": "1"
+                    }
+                  }
+                }
+              ], 
+              "CustomerRef": {
+                "value": "1"
+              }  
+            };
+
+            $.post('/test-invoice', obj, function(result) {
+              console.log(result);
+            });
+      }
+
+      button.addEventListener("click", () => {
+          requestOauth();
+      });
+
+      test_button.addEventListener("click", () => {
+          testGet();
+      });
+
+      test_invoice_button.addEventListener("click", () => {
+          testInvoice();
+      })
+  </script>
+ </body>
+</html>
