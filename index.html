@@ -46,8 +46,8 @@
       };
 
       const testInvoice = () => {
-        let obj = {
-              "Line": [
+        let obj = { 
+                "Line": [
                 {
                   "DetailType": "SalesItemLineDetail", 
                   "Amount": 999.0, 
@@ -62,7 +62,9 @@
               "CustomerRef": {
                 "value": "1"
               }  
-            };
+            }
+
+        
 
             $.post('/test-invoice', obj, function(result) {
               console.log(result);

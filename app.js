@@ -6,7 +6,7 @@ const { default: axios } = require('axios');
 const app = express();
 const httpServer = http.createServer(app);
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const oauthClient = new OAuthClient({
@@ -55,14 +55,12 @@ app.get('/test-get', async (req, res) => {
         console.log(result.data);
         res.send( result.data );
     }catch (error) {
-        console.error('Error: ', error)
+        console.error('Error: ',  error.response.request._response)
     }
 });
 
 app.post('/test-invoice', async (req, res) => {
     let invoice = JSON.stringify(req.body);
-
-    console.log(invoice)
 
     const url = 'https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365158292880/invoice';
     try {
@@ -72,11 +70,13 @@ app.post('/test-invoice', async (req, res) => {
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            console.log(response);
+            console.log("Success! ", response.status);
+            
         })
     } catch (error) {
         console.error('Error: ', error.response);
     }
+    res.send("Uploading Invoice");
 })
 
 httpServer.listen(3000);
